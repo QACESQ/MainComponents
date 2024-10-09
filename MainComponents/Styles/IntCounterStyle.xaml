@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:components="clr-namespace:MainComponents.Components">
+    <Style TargetType="components:IntCounter">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="components:IntCounter">
+                    <UniformGrid Rows="1">
+                        <Button x:Name="PART_MinusButton"/>
+                        <TextBlock TextAlignment="Center"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   x:Name="PART_ValueText"/>
+                        <Button x:Name="PART_PlusButton"/>
+                    </UniformGrid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

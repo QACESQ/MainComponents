@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Styles/IntCounterStyle.xaml"/>
+        <ResourceDictionary Source="../Styles/PlaceholderTextBoxStyles.xaml"/>
+        <ResourceDictionary Source="../Styles/ModalControlStyle.xaml"/>
+        <ResourceDictionary Source="../Styles/PopupContainersStyles.xaml"/>
+        <ResourceDictionary Source="../Styles/MultiSwitchButtonStyle.xaml"/>
+        <ResourceDictionary Source="../Styles/RoundedControlsStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
