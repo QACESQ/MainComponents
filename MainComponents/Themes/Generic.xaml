@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Styles/IntCounterStyle.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Styles/PlaceholderTextBoxStyles.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Styles/ModalControlStyle.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Styles/PopupContainersStyles.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Styles/MultiSwitchButtonStyle.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Styles/RoundedControlsStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Themes/Generic/IntCounterStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Themes/Generic/PlaceholderTextBoxStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Themes/Generic/ModalControlStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Themes/Generic/PopupContainersStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Themes/Generic/MultiSwitchButtonStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MainComponents;component/Themes/Generic/RoundedControlsStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
