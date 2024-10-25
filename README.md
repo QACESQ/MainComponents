@@ -120,7 +120,25 @@ MediaElement с автоматически повторяющимся конте
 ## ScalePopupContainer
 Контейнер с анимацией увеличения размера
 
-
-
 ## OpacityPopupContainer
 Контейнер с fade анимацией  
+
+# Расширения XAML Behaviours
+## CallMethodFunction
+Вызывает метод-функцию у привязанного объекта. Является альтернативой CallMethodAction, который принимает только void методы.
+```XAML
+<Grid
+    Height="3840"
+    VerticalAlignment="Bottom"
+    Focusable="True"
+    x:Name="Backdrop">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="MouseDown">
+            <utilities:CallMethodFunction MethodName="Focus" 
+                                          TargetObject="{Binding ElementName=Backdrop}"/>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+<Grid/>
+```
+
+
