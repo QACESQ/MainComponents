@@ -31,6 +31,15 @@ namespace MainComponents.Components
             set { SetValue(AnimationDurationProperty, value); }
         }
 
+        public static readonly DependencyProperty UnselectedItemTemplateProperty = DependencyProperty.Register(
+            nameof(UnselectedItemTemplate), typeof(DataTemplate), typeof(MultiSwitchButton), new PropertyMetadata(default(DataTemplate)));
+
+        public DataTemplate UnselectedItemTemplate
+        {
+            get { return (DataTemplate)GetValue(UnselectedItemTemplateProperty); }
+            set { SetValue(UnselectedItemTemplateProperty, value); }
+        }
+
         static MultiSwitchButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MultiSwitchButton),

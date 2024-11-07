@@ -11,12 +11,28 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="CornerRadius" Value="28"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter  Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter  Property="VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Background="Transparent"
+                                        x:Name="Border">
+                                    <ContentPresenter/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <panels:StretchyWrapPanel Orientation="Horizontal"
-                                                StretchProportionally="True"
-                                                ItemHeight="{Binding ActualHeight,RelativeSource={RelativeSource FindAncestor,AncestorType=Grid}}"/>
+                    <UniformGrid Rows="1"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -26,18 +42,28 @@
                     <Border x:Name="Bd" 
                                 CornerRadius="32"
                                 Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="1" SnapsToDevicePixels="true">
-                        <Grid
-                                Margin="8">
-                            <Border x:Name="PART_SwitchBorder"
+                        <Grid>
+                            <Grid Background="Transparent"
+                                  x:Name="PART_MainArea">
+                                <Border x:Name="PART_SwitchBorder"
+                                    
                                         CornerRadius="{TemplateBinding CornerRadius}"
                                         HorizontalAlignment="Left"
                                         Background="{TemplateBinding Foreground}">
-                                <Border.RenderTransform>
-                                    <TranslateTransform/>
-                                </Border.RenderTransform>
-                            </Border>
+                                    <Border.RenderTransform>
+                                        <TranslateTransform/>
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                            <ItemsControl ItemsSource="{TemplateBinding ItemsSource}"
+                                          ItemTemplate="{TemplateBinding UnselectedItemTemplate}"
+                                          ItemsPanel="{TemplateBinding ItemsPanel}"/>
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                Panel.ZIndex="1"/>
+                                            Panel.ZIndex="1">
+                                <ItemsPresenter.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=PART_MainArea}"/>
+                                </ItemsPresenter.OpacityMask>
+                            </ItemsPresenter>
                         </Grid>
                     </Border>
                 </ControlTemplate>
