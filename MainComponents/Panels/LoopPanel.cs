@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Size = System.Windows.Size;
 
-namespace YaroslavlMap.ViewModels.Controls;
+namespace MainComponents.Panels;
 
 public enum StartPos
 {

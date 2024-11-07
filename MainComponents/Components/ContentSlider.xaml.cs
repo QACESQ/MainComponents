@@ -3,8 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using MainComponents.Panels;
 
-namespace YaroslavlMap.ViewModels.Controls
+namespace MainComponents.Components
 {
     public enum SliderState
     {

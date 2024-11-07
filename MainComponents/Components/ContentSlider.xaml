@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="YaroslavlMap.ViewModels.Controls.ContentSlider"
+﻿<UserControl x:Class="MainComponents.Components.ContentSlider"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:YaroslavlMap.ViewModels.Controls"
+             xmlns:panels="clr-namespace:MainComponents.Panels"
              mc:Ignorable="d">
     <Grid Loaded="OnLoaded">
         <Grid ClipToBounds="True">
@@ -14,7 +14,7 @@
                           HorizontalAlignment="Center">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <controls:LoopPanel x:Name="LoopPanel"
+                        <panels:LoopPanel x:Name="LoopPanel"
                                                  Loaded="LoopPanel_OnLoaded"
                                              Offset="{Binding Offset,Mode=TwoWay,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
                                              CurrentIndex="{Binding CurrentIndex,Mode=TwoWay,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
