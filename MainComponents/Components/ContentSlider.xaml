@@ -26,7 +26,8 @@
             </ItemsControl>
             <Grid Background="Transparent"
               MouseDown="OnMouseDown"
-              MouseUp="OnMouseUp"/>
+              MouseUp="OnMouseUp"
+              MouseLeave="OnMouseLeave"/>
         </Grid>
         <Grid>
             <Grid.Style>

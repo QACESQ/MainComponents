@@ -167,7 +167,16 @@ namespace MainComponents.Components
         }
 
        
-        private async void OnMouseUp(object sender, MouseButtonEventArgs e)
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MouseUpOrLeave();
+        }
+
+        private void OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            MouseUpOrLeave();
+        }
+        private async void MouseUpOrLeave()
         {
             if (_isScrolling || SliderState == SliderState.Indeterminate) return;
             _isScrolling = true;
@@ -314,5 +323,7 @@ namespace MainComponents.Components
             };
             this.BeginAnimation(OffsetProperty,anim);
         }
+
+       
     }
 }
