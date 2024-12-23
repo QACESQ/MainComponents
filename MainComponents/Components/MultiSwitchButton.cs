@@ -73,6 +73,7 @@ namespace MainComponents.Components
             var zeroDuration = new Duration(TimeSpan.Zero);
             BoundAnimation(zeroDuration);
             TranslateAnimation(zeroDuration);
+            Loaded -= MultiSwitchButton_Loaded;
         }
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
