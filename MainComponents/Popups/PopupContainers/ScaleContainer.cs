@@ -35,7 +35,7 @@ namespace MainComponents.Popups.PopupContainers
             {
                 EasingFunction = EasingFunction
             };
-            var oAnim = new DoubleAnimation(0, Duration)
+            var oAnim = new DoubleAnimation(0.8, Duration)
             {
                 EasingFunction = EasingFunction
             };
