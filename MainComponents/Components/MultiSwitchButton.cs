@@ -22,6 +22,14 @@ namespace MainComponents.Components
             set { SetValue(CornerRadiusProperty, value); }
         }
 
+        public static readonly DependencyProperty BgCornerRadiusProperty = DependencyProperty.Register(
+            nameof(BgCornerRadius), typeof(CornerRadius), typeof(MultiSwitchButton), new PropertyMetadata(default(CornerRadius)));
+
+        public CornerRadius BgCornerRadius
+        {
+            get { return (CornerRadius)GetValue(BgCornerRadiusProperty); }
+            set { SetValue(BgCornerRadiusProperty, value); }
+        }
         public static readonly DependencyProperty AnimationDurationProperty = DependencyProperty.Register(
             nameof(AnimationDuration), typeof(Duration), typeof(MultiSwitchButton), new PropertyMetadata(new Duration(TimeSpan.Zero)));
 
