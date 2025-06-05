@@ -27,10 +27,12 @@ public static class ImageCache
                 {
                     var bitmap = new BitmapImage();
                     bitmap.BeginInit();
-                    bitmap.DecodePixelWidth = width;
-                    bitmap.DecodePixelHeight = height;
+                    if (width != 0)
+                        bitmap.DecodePixelWidth = width;
+                    if (height != 0)
+                        bitmap.DecodePixelHeight = height;
                     bitmap.CacheOption = BitmapCacheOption.None;
-                    bitmap.UriSource = new Uri(path);
+                    bitmap.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
                     RenderOptions.SetBitmapScalingMode(bitmap, scalingMode);
                     bitmap.EndInit();
                     bitmap.Freeze();

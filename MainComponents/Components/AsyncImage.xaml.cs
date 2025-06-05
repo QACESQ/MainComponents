@@ -9,7 +9,7 @@ namespace MainComponents.Components;
 /// <summary>
 /// Логика взаимодействия для AsyncImage.xaml
 /// </summary>
-public partial class AsyncImage : UserControl
+public partial class AsyncImage : Image
 {
     public static readonly DependencyProperty ImageScalingModeProperty = DependencyProperty.Register(nameof(ImageScalingMode), typeof(BitmapScalingMode), typeof(AsyncImage), new PropertyMetadata(default(BitmapScalingMode)));
     
@@ -48,11 +48,6 @@ public partial class AsyncImage : UserControl
         set { SetValue(RenderAtScaleProperty, value); }
     }
 
-    public AsyncImage()
-    {
-        InitializeComponent();
-    }
-
 
     private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) =>
         ((AsyncImage)d).SourceChanged((string)e.NewValue);
@@ -60,27 +55,19 @@ public partial class AsyncImage : UserControl
     private async void SourceChanged(string newSource)
     {
         if (string.IsNullOrEmpty(newSource)) return;
-        if (!File.Exists(newSource)) return;
+        if (!File.Exists(Path.GetFullPath(newSource)))
+        {
+            newSource = $"pack://application:,,,{newSource}";
+        }
         var bmp = await ImageCache.LoadBitmap(
             newSource,
             Width is double.NaN ? 0 : (int)Width,
             Height is double.NaN ? 0 : (int)Height,
             ImageScalingMode);
-        if(bmp is null) return;
-        if (RenderAtScale == 0)
-        {
-            Content = new Image()
-            {
-                Source = bmp,
-                Stretch = Stretch
-            };
-            return;
-        }
+        if (bmp is null) return;
+        Source = bmp;
+        if (RenderAtScale == 0) return;
+        CacheMode = new BitmapCache(RenderAtScale);
 
-        Content = ImageCache.LoadImage(
-            bmp,
-            Stretch,
-            RenderAtScale);
-        
     }
 }
