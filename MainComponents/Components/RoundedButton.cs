@@ -1,9 +1,10 @@
 ﻿using System.Windows;
+using System.Windows.Controls.Primitives;
 using Button=System.Windows.Controls;
 
 namespace MainComponents.Components;
 
-public class RoundedButton:Button.Button
+public class RoundedButton:ButtonBase
 {
     public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
         nameof(CornerRadius), typeof(CornerRadius), typeof(RoundedButton), new PropertyMetadata(default(CornerRadius)));
