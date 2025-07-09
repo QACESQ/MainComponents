@@ -96,6 +96,17 @@ MediaElement с автоматически повторяющимся конте
     CornerRadius="32"
     ImageSource="{Binding Item.Entity.ImagePath}"/>
 ```
+## Keyboard
+Кастомная клавиатура с настраиваевыми стилями
+```XAML
+ <components:Keyboard Width="800"
+                    Height="300"
+                    MainButtonStyle="{StaticResource MainButtonStyle}"
+                    AdditionalButtonStyle="{StaticResource AdditionalButtonStyle}"
+                    EmailButtonStyle="{StaticResource EmailButtonStyle}"
+                    IsEmailPrinting="True"
+                    ButtonBaseMargin="4"/>
+```
 
 # Панели
 ## StretchyWrapPanel
