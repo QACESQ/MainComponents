@@ -170,6 +170,7 @@ namespace MainComponents.Components
             var control = (Keyboard)d;
 
             control.AdditionalSymbols = (bool)e.NewValue ? control.SetAdditionalSymbols() : [];
+            control.SetButtonBaseHeight();
         }
 
         #endregion
@@ -466,7 +467,7 @@ namespace MainComponents.Components
         {
             var allVerticalMargin = (ButtonBaseMargin.Top + ButtonBaseMargin.Bottom) * 5;
 
-            ButtonBaseHeight = (Height - allVerticalMargin) / 5.0;
+            ButtonBaseHeight = (Height - allVerticalMargin) / (IsEmailPrinting ? 5.0 : 4.0);
         }
 
         #endregion
