@@ -465,9 +465,11 @@ namespace MainComponents.Components
 
         private void SetButtonBaseHeight()
         {
-            var allVerticalMargin = (ButtonBaseMargin.Top + ButtonBaseMargin.Bottom) * 5;
+            var buttonCount = (IsEmailPrinting ? 5.0 : 4.0);
 
-            ButtonBaseHeight = (Height - allVerticalMargin) / (IsEmailPrinting ? 5.0 : 4.0);
+            var allVerticalMargin = (ButtonBaseMargin.Top + ButtonBaseMargin.Bottom) * buttonCount;
+
+            ButtonBaseHeight = (Height - allVerticalMargin) / buttonCount;
         }
 
         #endregion

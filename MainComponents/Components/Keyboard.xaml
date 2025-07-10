@@ -14,7 +14,7 @@
     <Grid Width="{Binding Width,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
           Height="{Binding Height,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
@@ -25,6 +25,8 @@
         <Grid Grid.Row="0">
             <Grid.Style>
                 <Style TargetType="Grid">
+                    <Setter Property="Height"
+                            Value="{Binding ButtonBaseHeight,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}" />
                     <Style.Triggers>
                         <DataTrigger
                             Binding="{Binding IsEmailPrinting,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
