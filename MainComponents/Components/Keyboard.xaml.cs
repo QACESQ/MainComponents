@@ -43,10 +43,10 @@ namespace MainComponents.Components
             set => SetValue(ButtonBaseHeightProperty, value);
         }
 
-        public List<List<KeyRecord>> Keys
+        public List<List<KeyRecord>> ShowedKeys
         {
-            get => (List<List<KeyRecord>>)GetValue(KeysProperty);
-            set => SetValue(KeysProperty, value);
+            get => (List<List<KeyRecord>>)GetValue(ShowedKeysProperty);
+            set => SetValue(ShowedKeysProperty, value);
         }
 
         public LanguageType CurrentLanguage
@@ -72,10 +72,11 @@ namespace MainComponents.Components
             get => (bool)GetValue(IsEmailPrintingProperty);
             set => SetValue(IsEmailPrintingProperty, value);
         }
-        public List<KeyRecord> AdditionalSymbols
+        
+        public List<KeyRecord> ShowedAdditionalKeys
         {
-            get => (List<KeyRecord>)GetValue(AdditionalSymbolsProperty);
-            set => SetValue(AdditionalSymbolsProperty, value);
+            get => (List<KeyRecord>)GetValue(ShowedAdditionalKeysProperty);
+            set => SetValue(ShowedAdditionalKeysProperty, value);
         }
 
         public Style MainButtonStyle
@@ -95,8 +96,38 @@ namespace MainComponents.Components
             get => (Style)GetValue(EmailButtonStyleProperty);
             set => SetValue(EmailButtonStyleProperty, value);
         }
-        #endregion
 
+        public List<List<KeyRecord>> FirstLangKeys
+        {
+            get => (List<List<KeyRecord>>)GetValue(FirstLangKeysProperty);
+            set => SetValue(FirstLangKeysProperty, value);
+        }
+
+        public List<List<KeyRecord>> SecondLangKeys
+        {
+            get => (List<List<KeyRecord>>)GetValue(SecondLangKeysProperty);
+            set => SetValue(SecondLangKeysProperty, value);
+        }
+
+        public List<List<KeyRecord>> FirstSpecKeys
+        {
+            get => (List<List<KeyRecord>>)GetValue(FirstSpecKeysProperty);
+            set => SetValue(FirstSpecKeysProperty, value);
+        }
+
+        public List<List<KeyRecord>> EmailKeys
+        {
+            get => (List<List<KeyRecord>>)GetValue(EmailKeysProperty);
+            set => SetValue(EmailKeysProperty, value);
+        }
+
+        public List<KeyRecord> AdditionalKeys
+        {
+            get => (List<KeyRecord>)GetValue(AdditionalKeysProperty);
+            set => SetValue(AdditionalKeysProperty, value);
+        }
+
+        #endregion
         #region Fields
 
         public new static readonly DependencyProperty WidthProperty = DependencyProperty.Register(
@@ -115,24 +146,24 @@ namespace MainComponents.Components
         public static readonly DependencyProperty ButtonBaseHeightProperty = DependencyProperty.Register(
             nameof(ButtonBaseHeight), typeof(double), typeof(Keyboard), new PropertyMetadata(0.0));
 
-        public static readonly DependencyProperty KeysProperty = DependencyProperty.Register(
-            nameof(Keys), typeof(List<List<KeyRecord>>), typeof(Keyboard),
-            new PropertyMetadata(new List<List<KeyRecord>>()));
+        public static readonly DependencyProperty ShowedKeysProperty = DependencyProperty.Register(
+            nameof(ShowedKeys), typeof(List<List<KeyRecord>>), typeof(Keyboard),
+            new PropertyMetadata(new List<List<KeyRecord>>(),KeysChanged));
 
         public static readonly DependencyProperty CurrentLanguageProperty = DependencyProperty.Register(
-            nameof(CurrentLanguage), typeof(LanguageType), typeof(Keyboard), new PropertyMetadata(LanguageType.Ru));
+            nameof(CurrentLanguage), typeof(LanguageType), typeof(Keyboard), new PropertyMetadata(LanguageType.Ru,CurrentLanguageChanged));
 
         public static readonly DependencyProperty ShiftPressedProperty = DependencyProperty.Register(
             nameof(ShiftPressed), typeof(bool), typeof(Keyboard), new PropertyMetadata(false));
 
         public static readonly DependencyProperty IsDigitProperty = DependencyProperty.Register(
-            nameof(IsDigit), typeof(bool), typeof(Keyboard), new PropertyMetadata(false));
+            nameof(IsDigit), typeof(bool), typeof(Keyboard), new PropertyMetadata(false,IsDigitChanged));
 
         public static readonly DependencyProperty IsEmailPrintingProperty = DependencyProperty.Register(
             nameof(IsEmailPrinting), typeof(bool), typeof(Keyboard), new PropertyMetadata(false,IsEmailPrintingChanged));
 
-        public static readonly DependencyProperty AdditionalSymbolsProperty = DependencyProperty.Register(
-            nameof(AdditionalSymbols), typeof(List<KeyRecord>), typeof(Keyboard), new PropertyMetadata(new List<KeyRecord>()));
+        public static readonly DependencyProperty ShowedAdditionalKeysProperty = DependencyProperty.Register(
+            nameof(ShowedAdditionalKeys), typeof(List<KeyRecord>), typeof(Keyboard), new PropertyMetadata(default(List<KeyRecord>)));
 
         public static readonly DependencyProperty MainButtonStyleProperty = DependencyProperty.Register(
             nameof(MainButtonStyle), typeof(Style), typeof(Keyboard), new PropertyMetadata(default(Style)));
@@ -142,6 +173,22 @@ namespace MainComponents.Components
 
         public static readonly DependencyProperty EmailButtonStyleProperty = DependencyProperty.Register(
             nameof(EmailButtonStyle), typeof(Style), typeof(Keyboard), new PropertyMetadata(default(Style)));
+
+        public static readonly DependencyProperty FirstLangKeysProperty = DependencyProperty.Register(
+            nameof(FirstLangKeys), typeof(List<List<KeyRecord>>), typeof(Keyboard), new PropertyMetadata(SetRuSymbols()));
+
+        public static readonly DependencyProperty SecondLangKeysProperty = DependencyProperty.Register(
+            nameof(SecondLangKeys), typeof(List<List<KeyRecord>>), typeof(Keyboard), new PropertyMetadata(SetEngSymbols()));
+
+        public static readonly DependencyProperty FirstSpecKeysProperty = DependencyProperty.Register(
+            nameof(FirstSpecKeys), typeof(List<List<KeyRecord>>), typeof(Keyboard), new PropertyMetadata(SetFirstSpecSymbols()));
+
+        public static readonly DependencyProperty EmailKeysProperty = DependencyProperty.Register(
+            nameof(EmailKeys), typeof(List<List<KeyRecord>>), typeof(Keyboard), new PropertyMetadata(SetEmailSymbols()));
+
+        public static readonly DependencyProperty AdditionalKeysProperty = DependencyProperty.Register(
+            nameof(AdditionalKeys), typeof(List<KeyRecord>), typeof(Keyboard), new PropertyMetadata(SetAdditionalSymbols()));
+
         #endregion
 
         #region PropertyChangedCallbacks
@@ -165,11 +212,29 @@ namespace MainComponents.Components
             control.SetButtonBaseHeight();
         }
 
+        private static void KeysChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (Keyboard)d;
+            control.SetButtonBaseWidth();
+        }
+
+        private static void CurrentLanguageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (Keyboard)d;
+            control.ShowedKeys = control.GetSymbols();
+        }
+
+        private static void IsDigitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (Keyboard)d;
+            control.ShowedKeys = control.GetSymbols();
+        }
+
         private static void IsEmailPrintingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (Keyboard)d;
 
-            control.AdditionalSymbols = (bool)e.NewValue ? control.SetAdditionalSymbols() : [];
+            control.ShowedAdditionalKeys = (bool)e.NewValue ? control.AdditionalKeys : [];
             control.SetButtonBaseHeight();
         }
 
@@ -181,13 +246,7 @@ namespace MainComponents.Components
         {
             InitializeComponent();
 
-            if (InputLanguageManager.Current.CurrentInputLanguage.NativeName.Contains("English"))
-            {
-                CurrentLanguage = LanguageType.Eng;
-                SetLanguage();
-            }
-
-            Keys = GetSymbols();
+            ShowedKeys = GetSymbols();
         }
         #endregion
 
@@ -198,9 +257,9 @@ namespace MainComponents.Components
             if (sender is not ButtonBase button) return;
             if (button.Tag is not EmailTypes emailType) return;
 
-            foreach (var keyRecord in SetEmailSymbols(emailType))
+            foreach (var keyRecord in GetEmailKeys(emailType))
             {
-                keyRecord.PrintKeyWithParams(ShiftPressed, CurrentLanguage);
+                keyRecord.PrintKeyWithParams(ShiftPressed);
             }
         }
 
@@ -210,7 +269,7 @@ namespace MainComponents.Components
             switch (button.Tag)
             {
                 case KeyRecord keyRecord:
-                    keyRecord.PrintKeyWithParams(ShiftPressed,CurrentLanguage);
+                    keyRecord.PrintKeyWithParams(ShiftPressed);
                     break;
                 case Key key:
                     Utilities.Keyboard.Type(key);
@@ -248,124 +307,134 @@ namespace MainComponents.Components
             }
         }
 
-        private void OpenDigits(object sender, RoutedEventArgs e)
-        {
-            IsDigit = !IsDigit;
-            Keys = GetSymbols();
-        }
+        private void OpenDigits(object sender, RoutedEventArgs e) => IsDigit = !IsDigit;
 
-        private void ChangeLanguage(object sender, RoutedEventArgs e)
-        {
-            SetLanguage();
-            Keys = GetSymbols();
-        }
+        private void ChangeLanguage(object sender, RoutedEventArgs e) => SetLanguage();
 
-        private void SetLanguage()
-        {
-            Utilities.Keyboard.Press(Key.LeftAlt);
-            Utilities.Keyboard.Type(Key.LeftShift);
-            Utilities.Keyboard.Release(Key.LeftAlt);
-            CurrentLanguage = CurrentLanguage == LanguageType.Eng ? LanguageType.Ru : LanguageType.Eng;
-        }
+        private void SetLanguage() => CurrentLanguage = CurrentLanguage == LanguageType.Eng ? LanguageType.Ru : LanguageType.Eng;
+
 
         private List<List<KeyRecord>> GetSymbols() => IsDigit
-            ? SetDigitSymbols()
+            ? FirstSpecKeys
             : CurrentLanguage switch
             {
-                LanguageType.Eng => SetEngSymbols(),
-                LanguageType.Ru => SetRuSymbols(),
+                LanguageType.Ru => FirstLangKeys,
+                LanguageType.Eng => SecondLangKeys,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-        private List<List<KeyRecord>> SetEngSymbols()
+        private void SetButtonBaseWidth()
+        {
+            var buttonsCount = ShowedKeys.Max(keys => keys.Count);
+            var allHorizontalMargin = (ButtonBaseMargin.Left + ButtonBaseMargin.Right) * buttonsCount;
+
+            ButtonBaseWidth = (Width - allHorizontalMargin) / buttonsCount;
+        }
+
+        private void SetButtonBaseHeight()
+        {
+            var buttonCount = (IsEmailPrinting ? 5.0 : 4.0);
+
+            var allVerticalMargin = (ButtonBaseMargin.Top + ButtonBaseMargin.Bottom) * buttonCount;
+
+            ButtonBaseHeight = (Height - allVerticalMargin) / buttonCount;
+        }
+
+        private List<KeyRecord> GetEmailKeys(EmailTypes emailTypes) => emailTypes switch
+        {
+            EmailTypes.Inbox => EmailKeys[0],
+            EmailTypes.Mail => EmailKeys[1],
+            EmailTypes.Yandex => EmailKeys[2],
+            _ => throw new ArgumentOutOfRangeException(nameof(emailTypes), emailTypes, null)
+        };
+
+        private static List<List<KeyRecord>> SetRuSymbols()
         {
             List<List<KeyRecord>> keys =
             [
                 [
-                    new KeyRecord("q", Key.Q),
-                    new KeyRecord("w", Key.W),
-                    new KeyRecord("e", Key.E),
-                    new KeyRecord("r", Key.R),
-                    new KeyRecord("t", Key.T),
-                    new KeyRecord("y", Key.Y),
-                    new KeyRecord("u", Key.U),
-                    new KeyRecord("i", Key.I),
-                    new KeyRecord("o", Key.O),
-                    new KeyRecord("p", Key.P)
+                    new KeyRecord("й", Key.Q,LanguageType.Ru),
+                    new KeyRecord("ц", Key.W,LanguageType.Ru),
+                    new KeyRecord("у", Key.E,LanguageType.Ru),
+                    new KeyRecord("к", Key.R,LanguageType.Ru),
+                    new KeyRecord("е", Key.T,LanguageType.Ru),
+                    new KeyRecord("н", Key.Y,LanguageType.Ru),
+                    new KeyRecord("г", Key.U,LanguageType.Ru),
+                    new KeyRecord("ш", Key.I,LanguageType.Ru),
+                    new KeyRecord("щ", Key.O,LanguageType.Ru),
+                    new KeyRecord("з", Key.P,LanguageType.Ru),
+                    new KeyRecord("х", Key.OemOpenBrackets,LanguageType.Ru),
+                    new KeyRecord("ъ", Key.OemCloseBrackets,LanguageType.Ru),
                 ],
                 [
-                    new KeyRecord("a", Key.A),
-                    new KeyRecord("s", Key.S),
-                    new KeyRecord("d", Key.D),
-                    new KeyRecord("f", Key.F),
-                    new KeyRecord("g", Key.G),
-                    new KeyRecord("h", Key.H),
-                    new KeyRecord("j", Key.J),
-                    new KeyRecord("k", Key.K),
-                    new KeyRecord("l", Key.L)
+                    new KeyRecord("ф", Key.A,LanguageType.Ru),
+                    new KeyRecord("ы", Key.S,LanguageType.Ru),
+                    new KeyRecord("в", Key.D,LanguageType.Ru),
+                    new KeyRecord("а", Key.F,LanguageType.Ru),
+                    new KeyRecord("п", Key.G,LanguageType.Ru),
+                    new KeyRecord("р", Key.H,LanguageType.Ru),
+                    new KeyRecord("о", Key.J,LanguageType.Ru),
+                    new KeyRecord("л", Key.K,LanguageType.Ru),
+                    new KeyRecord("д", Key.L,LanguageType.Ru),
+                    new KeyRecord("ж", Key.Oem1,LanguageType.Ru),
+                    new KeyRecord("э", Key.OemQuotes,LanguageType.Ru)
                 ],
                 [
-                    new KeyRecord("z", Key.Z),
-                    new KeyRecord("x", Key.X),
-                    new KeyRecord("c", Key.C),
-                    new KeyRecord("v", Key.V),
-                    new KeyRecord("b", Key.B),
-                    new KeyRecord("n", Key.N),
-                    new KeyRecord("m", Key.M)
+                    new KeyRecord("я", Key.Z,LanguageType.Ru),
+                    new KeyRecord("ч", Key.X,LanguageType.Ru),
+                    new KeyRecord("с", Key.C,LanguageType.Ru),
+                    new KeyRecord("м", Key.V,LanguageType.Ru),
+                    new KeyRecord("и", Key.B,LanguageType.Ru),
+                    new KeyRecord("т", Key.N,LanguageType.Ru),
+                    new KeyRecord("ь", Key.M,LanguageType.Ru),
+                    new KeyRecord("б", Key.OemComma,LanguageType.Ru),
+                    new KeyRecord("ю", Key.OemPeriod,LanguageType.Ru)
                 ]
             ];
-            SetButtonBaseWidth();
             return keys;
         }
 
-        private List<List<KeyRecord>> SetRuSymbols()
+        private static List<List<KeyRecord>> SetEngSymbols()
         {
             List<List<KeyRecord>> keys =
             [
                 [
-                    new KeyRecord("й", Key.Q),
-                    new KeyRecord("ц", Key.W),
-                    new KeyRecord("у", Key.E),
-                    new KeyRecord("к", Key.R),
-                    new KeyRecord("е", Key.T),
-                    new KeyRecord("н", Key.Y),
-                    new KeyRecord("г", Key.U),
-                    new KeyRecord("ш", Key.I),
-                    new KeyRecord("щ", Key.O),
-                    new KeyRecord("з", Key.P),
-                    new KeyRecord("х", Key.OemOpenBrackets),
-                    new KeyRecord("ъ", Key.OemCloseBrackets),
+                    new KeyRecord("q", Key.Q,LanguageType.Eng),
+                    new KeyRecord("w", Key.W,LanguageType.Eng),
+                    new KeyRecord("e", Key.E,LanguageType.Eng),
+                    new KeyRecord("r", Key.R,LanguageType.Eng),
+                    new KeyRecord("t", Key.T,LanguageType.Eng),
+                    new KeyRecord("y", Key.Y,LanguageType.Eng),
+                    new KeyRecord("u", Key.U,LanguageType.Eng),
+                    new KeyRecord("i", Key.I,LanguageType.Eng),
+                    new KeyRecord("o", Key.O,LanguageType.Eng),
+                    new KeyRecord("p", Key.P,LanguageType.Eng)
                 ],
                 [
-                    new KeyRecord("ф", Key.A),
-                    new KeyRecord("ы", Key.S),
-                    new KeyRecord("в", Key.D),
-                    new KeyRecord("а", Key.F),
-                    new KeyRecord("п", Key.G),
-                    new KeyRecord("р", Key.H),
-                    new KeyRecord("о", Key.J),
-                    new KeyRecord("л", Key.K),
-                    new KeyRecord("д", Key.L),
-                    new KeyRecord("ж", Key.Oem1),
-                    new KeyRecord("э", Key.OemQuotes)
+                    new KeyRecord("a", Key.A,LanguageType.Eng),
+                    new KeyRecord("s", Key.S,LanguageType.Eng),
+                    new KeyRecord("d", Key.D,LanguageType.Eng),
+                    new KeyRecord("f", Key.F,LanguageType.Eng),
+                    new KeyRecord("g", Key.G,LanguageType.Eng),
+                    new KeyRecord("h", Key.H,LanguageType.Eng),
+                    new KeyRecord("j", Key.J,LanguageType.Eng),
+                    new KeyRecord("k", Key.K,LanguageType.Eng),
+                    new KeyRecord("l", Key.L,LanguageType.Eng)
                 ],
                 [
-                    new KeyRecord("я", Key.Z),
-                    new KeyRecord("ч", Key.X),
-                    new KeyRecord("с", Key.C),
-                    new KeyRecord("м", Key.V),
-                    new KeyRecord("и", Key.B),
-                    new KeyRecord("т", Key.N),
-                    new KeyRecord("ь", Key.M),
-                    new KeyRecord("б", Key.OemComma),
-                    new KeyRecord("ю", Key.OemPeriod)
+                    new KeyRecord("z", Key.Z,LanguageType.Eng),
+                    new KeyRecord("x", Key.X,LanguageType.Eng),
+                    new KeyRecord("c", Key.C,LanguageType.Eng),
+                    new KeyRecord("v", Key.V,LanguageType.Eng),
+                    new KeyRecord("b", Key.B,LanguageType.Eng),
+                    new KeyRecord("n", Key.N,LanguageType.Eng),
+                    new KeyRecord("m", Key.M,LanguageType.Eng)
                 ]
             ];
-            SetButtonBaseWidth();
             return keys;
         }
 
-        private List<List<KeyRecord>> SetDigitSymbols()
+        private static List<List<KeyRecord>> SetFirstSpecSymbols()
         {
             List<List<KeyRecord>> keys =
             [
@@ -398,80 +467,58 @@ namespace MainComponents.Components
                     new KeyRecord("?", Key.OemQuestion, LanguageType.Eng, true),
                     new KeyRecord("!", Key.D1, IsShiftPressed:true),
                     new KeyRecord("'", Key.OemQuotes, LanguageType.Eng, false),
+                    new KeyRecord("_", Key.OemMinus, IsShiftPressed:true)
                 ]
             ];
-            SetButtonBaseWidth();
             return keys;
         }
 
-        private List<KeyRecord> SetAdditionalSymbols()
+        private static List<KeyRecord> SetAdditionalSymbols()
         {
             List<KeyRecord> keys =
             [
-                new KeyRecord("@", Key.D2, LanguageType.Eng, true),
-                new KeyRecord(".", Key.OemPeriod, LanguageType.Eng, false),
+                new("@", Key.D2, LanguageType.Eng, true),
+                new(".", Key.OemPeriod, LanguageType.Eng, false),
             ];
             return keys;
         }
 
-        private List<KeyRecord> SetEmailSymbols(EmailTypes emailTypes) => emailTypes switch
-            {
-                EmailTypes.Gmail =>
-                [
-                    new KeyRecord("@", Key.D2, LanguageType.Eng, true),
-                    new KeyRecord("g", Key.G, LanguageType.Eng, false),
-                    new KeyRecord("m", Key.M, LanguageType.Eng, false),
-                    new KeyRecord("a", Key.A, LanguageType.Eng, false),
-                    new KeyRecord("i", Key.I, LanguageType.Eng, false),
-                    new KeyRecord("l", Key.L, LanguageType.Eng, false),
-                    new KeyRecord(".", Key.OemPeriod, LanguageType.Eng, false),
-                    new KeyRecord("c", Key.C, LanguageType.Eng, false),
-                    new KeyRecord("o", Key.O, LanguageType.Eng, false),
-                    new KeyRecord("m", Key.M, LanguageType.Eng, false)
-                ],
-                EmailTypes.Mail =>
-                [
-                    new KeyRecord("@", Key.D2, LanguageType.Eng, true),
-                    new KeyRecord("m", Key.M, LanguageType.Eng, false),
-                    new KeyRecord("a", Key.A, LanguageType.Eng, false),
-                    new KeyRecord("i", Key.I, LanguageType.Eng, false),
-                    new KeyRecord("l", Key.L, LanguageType.Eng, false),
-                    new KeyRecord(".", Key.OemPeriod, LanguageType.Eng, false),
-                    new KeyRecord("r", Key.R, LanguageType.Eng, false),
-                    new KeyRecord("u", Key.U, LanguageType.Eng, false)
-                ],
-                EmailTypes.Yandex => [
-                    new KeyRecord("@", Key.D2, LanguageType.Eng, true),
-                    new KeyRecord("y", Key.Y, LanguageType.Eng, false),
-                    new KeyRecord("a", Key.A, LanguageType.Eng, false),
-                    new KeyRecord("n", Key.N, LanguageType.Eng, false),
-                    new KeyRecord("d", Key.D, LanguageType.Eng, false),
-                    new KeyRecord("e", Key.E, LanguageType.Eng, false),
-                    new KeyRecord("x", Key.X, LanguageType.Eng, false),
-                    new KeyRecord(".", Key.OemPeriod, LanguageType.Eng, false),
-                    new KeyRecord("r", Key.R, LanguageType.Eng, false),
-                    new KeyRecord("u", Key.U, LanguageType.Eng, false)
-                ],
-                _ => throw new ArgumentOutOfRangeException(nameof(emailTypes), emailTypes, null)
-            };
-
-        private void SetButtonBaseWidth()
-        {
-            var buttonsCount = CurrentLanguage == LanguageType.Eng || IsDigit ? 10 : 12;
-            var allHorizontalMargin = (ButtonBaseMargin.Left + ButtonBaseMargin.Right) * buttonsCount;
-
-            ButtonBaseWidth = (Width - allHorizontalMargin) / buttonsCount;
-        }
-
-        private void SetButtonBaseHeight()
-        {
-            var buttonCount = (IsEmailPrinting ? 5.0 : 4.0);
-
-            var allVerticalMargin = (ButtonBaseMargin.Top + ButtonBaseMargin.Bottom) * buttonCount;
-
-            ButtonBaseHeight = (Height - allVerticalMargin) / buttonCount;
-        }
-
+        private static List<List<KeyRecord>> SetEmailSymbols() =>
+        [
+            [
+                new KeyRecord("@", Key.D2, LanguageType.Eng, true),
+                new KeyRecord("i", Key.I, LanguageType.Eng, false),
+                new KeyRecord("n", Key.N, LanguageType.Eng, false),
+                new KeyRecord("b", Key.B, LanguageType.Eng, false),
+                new KeyRecord("o", Key.O, LanguageType.Eng, false),
+                new KeyRecord("x", Key.X, LanguageType.Eng, false),
+                new KeyRecord(".", Key.OemPeriod, LanguageType.Eng, false),
+                new KeyRecord("r", Key.R, LanguageType.Eng, false),
+                new KeyRecord("u", Key.U, LanguageType.Eng, false)
+            ],
+            [
+                new KeyRecord("@", Key.D2, LanguageType.Eng, true),
+                new KeyRecord("m", Key.M, LanguageType.Eng, false),
+                new KeyRecord("a", Key.A, LanguageType.Eng, false),
+                new KeyRecord("i", Key.I, LanguageType.Eng, false),
+                new KeyRecord("l", Key.L, LanguageType.Eng, false),
+                new KeyRecord(".", Key.OemPeriod, LanguageType.Eng, false),
+                new KeyRecord("r", Key.R, LanguageType.Eng, false),
+                new KeyRecord("u", Key.U, LanguageType.Eng, false)
+            ],
+            [
+                new KeyRecord("@", Key.D2, LanguageType.Eng, true),
+                new KeyRecord("y", Key.Y, LanguageType.Eng, false),
+                new KeyRecord("a", Key.A, LanguageType.Eng, false),
+                new KeyRecord("n", Key.N, LanguageType.Eng, false),
+                new KeyRecord("d", Key.D, LanguageType.Eng, false),
+                new KeyRecord("e", Key.E, LanguageType.Eng, false),
+                new KeyRecord("x", Key.X, LanguageType.Eng, false),
+                new KeyRecord(".", Key.OemPeriod, LanguageType.Eng, false),
+                new KeyRecord("r", Key.R, LanguageType.Eng, false),
+                new KeyRecord("u", Key.U, LanguageType.Eng, false)
+            ]
+        ];
         #endregion
     }
 }

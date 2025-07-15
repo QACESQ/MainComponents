@@ -58,10 +58,10 @@
                                           Grid.Row="0"
                                           Grid.RowSpan="3"
                                           Click="PrintEmail"
-                                          Tag="{x:Static models:EmailTypes.Gmail}"
+                                          Tag="{x:Static models:EmailTypes.Inbox}"
                                           Style="{Binding EmailButtonStyle,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
                                           Background="Transparent"
-                                          Content="@gmail.com" />
+                                          Content="@inbox.ru" />
                 <Grid Grid.Column="1"
                       Grid.Row="1"
                       Background="#9F9196" />
@@ -90,7 +90,7 @@
 
         <!--#region Первый ряд -->
         <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding Keys[0],RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
+                      ItemsSource="{Binding ShowedKeys[0],RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"
@@ -130,7 +130,7 @@
 
         <!--#region Второй ряд -->
         <ItemsControl Grid.Row="2"
-                      ItemsSource="{Binding Keys[1],RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
+                      ItemsSource="{Binding ShowedKeys[1],RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"
@@ -216,7 +216,7 @@
 
             <!--#region Symbols -->
             <ItemsControl Grid.Column="1"
-                          ItemsSource="{Binding Keys[2],RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
+                          ItemsSource="{Binding ShowedKeys[2],RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"
@@ -375,7 +375,7 @@
 
                 <!--#region Доп символы -->
                 <ItemsControl Grid.Column="1"
-                              ItemsSource="{Binding AdditionalSymbols,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
+                              ItemsSource="{Binding ShowedAdditionalKeys,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"

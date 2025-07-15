@@ -3,6 +3,6 @@
 public enum LanguageType
 {
     None,
-    Eng,
-    Ru
+    Ru,
+    Eng
 }

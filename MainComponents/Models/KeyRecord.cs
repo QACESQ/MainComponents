@@ -6,9 +6,10 @@ public record KeyRecord(string Title,Key Symbol,LanguageType Language = Language
 
 public static class KeyRecordExtensions
 {
-    public static void PrintKeyWithParams(this KeyRecord keyRecord,bool isShiftPressed,LanguageType currentLanguage)
+    public static void PrintKeyWithParams(this KeyRecord keyRecord,bool isShiftPressed)
     {
-        if (keyRecord.Language != LanguageType.None && keyRecord.Language != currentLanguage)
+        var currentLang = InputLanguageManager.Current.CurrentInputLanguage.NativeName.Contains("English") ? LanguageType.Eng : LanguageType.Ru;
+        if (keyRecord.Language != LanguageType.None && keyRecord.Language != currentLang)
         {
             Utilities.Keyboard.Press(Key.LeftAlt);
             Utilities.Keyboard.Type(Key.LeftShift);
@@ -21,7 +22,7 @@ public static class KeyRecordExtensions
 
         if ((isShiftPressed && keyRecord.IsShiftPressed != false) || keyRecord.IsShiftPressed == true) Utilities.Keyboard.Release(Key.LeftShift);
 
-        if (keyRecord.Language != LanguageType.None && keyRecord.Language != currentLanguage)
+        if (keyRecord.Language != LanguageType.None && keyRecord.Language != currentLang)
         {
             Utilities.Keyboard.Press(Key.LeftAlt);
             Utilities.Keyboard.Type(Key.LeftShift);

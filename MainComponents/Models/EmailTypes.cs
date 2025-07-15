@@ -2,7 +2,7 @@
 
 public enum EmailTypes
 {
-    Gmail,
+    Inbox,
     Mail,
     Yandex
 }
