@@ -107,6 +107,32 @@ MediaElement с автоматически повторяющимся конте
                     IsEmailPrinting="True"
                     ButtonBaseMargin="4"/>
 ```
+Пример стиля кнопок
+```XAML
+<Style TargetType="components:RoundedButton" x:Key="KeyboardMainButtonStyle">
+    <Setter Property="FontSize" Value="18" />
+    <Setter Property="FontFamily" Value="{StaticResource Montserrat}" />
+    <Setter Property="Foreground" Value="{StaticResource BlackPrimaryBrush}" />
+    <Setter Property="Background" Value="#FAFAFA" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+</Style>
+```
+Также можно задать кастомный набор символов в свойства FirstLangKeys, SecondLangKeys, FirstSpecKeys. 
+Входной формат данных :
+```C# 
+List<List<KeyRecord>>
+```
+Структура KeyRecord:
+```C#
+public record KeyRecord(
+string Title, //Отобржаемое значение на клавиатуре
+Key Symbol, //Код символа
+LanguageType Language = LanguageType.None, //Отвечает за язык на котором нужно вводить символ
+bool? IsShiftPressed = null); //Отвечает за нажатия шифта во время ввода символа
+```
 
 # Панели
 ## StretchyWrapPanel
