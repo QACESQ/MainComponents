@@ -1,4 +1,4 @@
-﻿namespace MainComponents.Models;
+﻿namespace MainComponents.Models.Enums;
 
 public enum LanguageType
 {

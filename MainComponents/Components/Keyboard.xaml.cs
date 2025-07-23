@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using MainComponents.Models;
+using MainComponents.Models.Enums;
+using MainComponents.Models.Records;
 
 namespace MainComponents.Components
 {
@@ -128,6 +130,7 @@ namespace MainComponents.Components
         }
 
         #endregion
+
         #region Fields
 
         public new static readonly DependencyProperty WidthProperty = DependencyProperty.Register(

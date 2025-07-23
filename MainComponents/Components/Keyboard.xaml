@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:MainComponents.Converters"
              xmlns:models="clr-namespace:MainComponents.Models"
              xmlns:components="clr-namespace:MainComponents.Components"
+             xmlns:enums="clr-namespace:MainComponents.Models.Enums"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -58,7 +59,7 @@
                                           Grid.Row="0"
                                           Grid.RowSpan="3"
                                           Click="PrintEmail"
-                                          Tag="{x:Static models:EmailTypes.Inbox}"
+                                          Tag="{x:Static enums:EmailTypes.Inbox}"
                                           Style="{Binding EmailButtonStyle,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
                                           Background="Transparent"
                                           Content="@inbox.ru" />
@@ -69,7 +70,7 @@
                                           Grid.Row="0"
                                           Grid.RowSpan="3"
                                           Click="PrintEmail"
-                                          Tag="{x:Static models:EmailTypes.Mail}"
+                                          Tag="{x:Static enums:EmailTypes.Mail}"
                                           Style="{Binding EmailButtonStyle,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
                                           Background="Transparent"
                                           Content="@mail.ru" />
@@ -80,7 +81,7 @@
                                           Grid.Row="0"
                                           Grid.RowSpan="3"
                                           Click="PrintEmail"
-                                          Tag="{x:Static models:EmailTypes.Yandex}"
+                                          Tag="{x:Static enums:EmailTypes.Yandex}"
                                           Style="{Binding EmailButtonStyle,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
                                           Background="Transparent"
                                           Content="@yandex.ru" />
@@ -312,7 +313,7 @@
                                     <MultiDataTrigger.Conditions>
                                         <Condition
                                             Binding="{Binding CurrentLanguage,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
-                                            Value="{x:Static models:LanguageType.Eng}" />
+                                            Value="{x:Static enums:LanguageType.Eng}" />
                                         <Condition
                                             Binding="{Binding IsDigit,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
                                             Value="True" />
@@ -323,7 +324,7 @@
                                     <MultiDataTrigger.Conditions>
                                         <Condition
                                             Binding="{Binding CurrentLanguage,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
-                                            Value="{x:Static models:LanguageType.Ru}" />
+                                            Value="{x:Static enums:LanguageType.Ru}" />
                                         <Condition
                                             Binding="{Binding IsDigit,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
                                             Value="True" />
@@ -363,7 +364,7 @@
                                 <Style.Triggers>
                                     <DataTrigger
                                         Binding="{Binding CurrentLanguage,RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
-                                        Value="{x:Static models:LanguageType.Eng}">
+                                        Value="{x:Static enums:LanguageType.Eng}">
                                         <Setter Property="Text" Value="Space" />
                                     </DataTrigger>
                                 </Style.Triggers>

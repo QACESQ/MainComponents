@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
+using MainComponents.Models.Enums;
 
-namespace MainComponents.Models;
+namespace MainComponents.Models.Records;
 
 public record KeyRecord(string Title,Key Symbol,LanguageType Language = LanguageType.None,bool? IsShiftPressed = null);
 
