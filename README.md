@@ -96,6 +96,22 @@ MediaElement с автоматически повторяющимся конте
     CornerRadius="32"
     ImageSource="{Binding Item.Entity.ImagePath}"/>
 ```
+## StandbyControl
+Контрол режима ожидания для показа картинок и видео
+```XAML
+ <components:StandbyControl Standbies="{Binding MainAds}"
+                            UseDurationToVideo="True"
+                            AnimType="Translate"/>
+```
+Принимает под собой List<IStandbyModel> который выглядит следующим образом:
+```C#
+public interface IStandbyModel
+{
+    public string Path { get; init; }//Путь до картинки или видео
+    public int Duration { get; init; }//Продолжительность показа контента, если не задано будет использовать значение из свойства UniversalDuration(по умолчание 5 секунд)
+}
+```
+Duration применяется к видео, если свойство UseDurationToVideo выставлено в значение true
 ## Keyboard
 Кастомная клавиатура с настраиваевыми стилями
 ```XAML
