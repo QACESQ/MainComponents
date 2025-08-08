@@ -46,8 +46,9 @@ public partial class StandbyControl : UserControl
         get => (StandbySwitchAnimType)GetValue(AnimTypeProperty);
         set => SetValue(AnimTypeProperty, value);
     }
-    private readonly DispatcherTimer _timer = new(DispatcherPriority.Normal);
+    private readonly DispatcherTimer _timer = new(DispatcherPriority.Normal){Interval = TimeSpan.FromSeconds(1)};
     private int _currentIndex = -1;
+    private int _sec = 0;
     #endregion
 
     #region Fields
@@ -147,7 +148,6 @@ public partial class StandbyControl : UserControl
             await AnimSwitch();//Anim
             Media1 = null;
         }
-        _timer.Interval = TimeSpan.FromSeconds(Standbies[_currentIndex].Duration == 0 ? UniversalDuration : Standbies[_currentIndex].Duration);
         if (!Standbies[_currentIndex].Path.EndsWith(".mp4") || UseDurationToVideo)
             _timer.Start();
     }
@@ -328,6 +328,9 @@ public partial class StandbyControl : UserControl
     {
         try
         {
+            _sec++;
+            if ((Standbies[_currentIndex].Duration == 0 ? UniversalDuration : Standbies[_currentIndex].Duration) >= _sec) return;
+            _sec = 0;
             await SwitchContent();
         }
         catch
