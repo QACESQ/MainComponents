@@ -7,19 +7,16 @@ using System.Windows.Media.Imaging;
 
 namespace MainComponents.Components;
 
-/// <summary>
-/// Логика взаимодействия для AsyncImage.xaml
-/// </summary>
-public partial class AsyncImage : Image
+public partial class AsyncGrayscaleImage : Image
 {
     public static readonly DependencyProperty ImageScalingModeProperty = DependencyProperty.Register(nameof(ImageScalingMode),
-        typeof(BitmapScalingMode), typeof(AsyncImage), new PropertyMetadata(default(BitmapScalingMode)));
-    
+        typeof(BitmapScalingMode), typeof(AsyncGrayscaleImage), new PropertyMetadata(default(BitmapScalingMode)));
+
     public static readonly DependencyProperty StretchProperty = DependencyProperty.Register(nameof(Stretch),
-        typeof(Stretch), typeof(AsyncImage), new PropertyMetadata(default(Stretch)));
+        typeof(Stretch), typeof(AsyncGrayscaleImage), new PropertyMetadata(default(Stretch)));
 
     public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register(nameof(ImageSource),
-        typeof(string), typeof(AsyncImage), new PropertyMetadata(default(string), SourceChanged));
+        typeof(string), typeof(AsyncGrayscaleImage), new PropertyMetadata(default(string), SourceChanged));
 
     public string ImageSource
     {
@@ -40,7 +37,7 @@ public partial class AsyncImage : Image
     }
 
     public static readonly DependencyProperty CacheOptionProperty = DependencyProperty.Register(
-        nameof(CacheOption), typeof(BitmapCacheOption), typeof(AsyncImage), new PropertyMetadata(default(BitmapCacheOption)));
+        nameof(CacheOption), typeof(BitmapCacheOption), typeof(AsyncGrayscaleImage), new PropertyMetadata(default(BitmapCacheOption)));
 
     public BitmapCacheOption CacheOption
     {
@@ -49,7 +46,7 @@ public partial class AsyncImage : Image
     }
 
     public static readonly DependencyProperty RenderAtScaleProperty = DependencyProperty.Register(
-        nameof(RenderAtScale), typeof(double), typeof(AsyncImage), new PropertyMetadata(default(double)));
+        nameof(RenderAtScale), typeof(double), typeof(AsyncGrayscaleImage), new PropertyMetadata(default(double)));
 
     public double RenderAtScale
     {
@@ -58,7 +55,7 @@ public partial class AsyncImage : Image
     }
 
     private static void SourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) =>
-        ((AsyncImage)d).SourceChanged((string)e.NewValue);
+        ((AsyncGrayscaleImage)d).SourceChanged((string)e.NewValue);
 
     private async void SourceChanged(string newSource)
     {
@@ -73,8 +70,18 @@ public partial class AsyncImage : Image
             Height is double.NaN ? 0 : (int)Height,
             ImageScalingMode,
             CacheOption);
+
         if (bmp is null) return;
-        Source = bmp;
+
+        var formatConvertedBitmap = new FormatConvertedBitmap();
+        formatConvertedBitmap.BeginInit();
+        formatConvertedBitmap.Source = bmp;
+        formatConvertedBitmap.DestinationFormat = PixelFormats.Gray32Float;
+        formatConvertedBitmap.EndInit();
+
+        if (formatConvertedBitmap.CanFreeze) formatConvertedBitmap.Freeze();
+
+        Source = formatConvertedBitmap;
         if (RenderAtScale == 0) return;
         CacheMode = new BitmapCache(RenderAtScale);
     }

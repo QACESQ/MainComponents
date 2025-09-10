@@ -16,7 +16,9 @@ public static class ImageCache
         BitmapImages.Clear();
     }
 
-    public static async Task<BitmapImage?> LoadBitmap(string path, int width, int height, BitmapScalingMode scalingMode)
+    public static async Task<BitmapImage?> LoadBitmap(
+        string path, int width, int height, BitmapScalingMode scalingMode,
+        BitmapCacheOption cacheOptions = BitmapCacheOption.None)
     {
         if (BitmapImages.TryGetValue(path, out var image)) return image;
 
@@ -31,7 +33,7 @@ public static class ImageCache
                         bitmap.DecodePixelWidth = width;
                     if (height != 0)
                         bitmap.DecodePixelHeight = height;
-                    bitmap.CacheOption = BitmapCacheOption.None;
+                    bitmap.CacheOption = cacheOptions;
                     bitmap.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
                     RenderOptions.SetBitmapScalingMode(bitmap, scalingMode);
                     bitmap.EndInit();
